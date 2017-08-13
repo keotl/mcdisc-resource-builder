@@ -6,14 +6,16 @@ import java.util.List;
 public class DownloaderPool implements Runnable {
 
     private final int poolSize;
+    private final String targetDirectory;
 
     private List<Thread> threads = new ArrayList<>();
 
     private Thread cleanup = new Thread(this);
     private volatile boolean exit = false;
 
-    public DownloaderPool(int poolSize) {
+    public DownloaderPool(int poolSize, String targetDirectory) {
         this.poolSize = poolSize;
+        this.targetDirectory = targetDirectory;
         cleanup.start();
     }
 
@@ -25,7 +27,7 @@ public class DownloaderPool implements Runnable {
                 e.printStackTrace();
             }
         }
-        Thread runner = new Thread(new DownloaderThread(disc));
+        Thread runner = new Thread(new DownloaderThread(disc,targetDirectory));
         addThread(runner);
     }
 

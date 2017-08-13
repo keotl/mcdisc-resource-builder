@@ -14,21 +14,21 @@ public class DownloaderThread implements Runnable {
 
     private Disc disc;
     private int retryCount = 0;
-    private final static String RELEASE_URL = "https://boiling-forest-57763.herokuapp.com/release";
-    private final static String TARGET_DIRECTORY = "/home/kento/Desktop/mcdisc";
+    private String targetDirectory = "/home/kento/Desktop/mcdisc";
     private final static String AUDIO_CONTENT_TYPE = "audio/webm";
 
     private final static int MAX_RETRY = 5;
 
-    public DownloaderThread(Disc disc) {
+    public DownloaderThread(Disc disc, String targetDirectory) {
         this.disc = disc;
+        this.targetDirectory = targetDirectory;
         System.out.println(disc.getName());
     }
 
     @Override
     public void run() {
         try {
-            VGet v = new VGet(new URL(disc.getUrl()), new File(TARGET_DIRECTORY));
+            VGet v = new VGet(new URL(disc.getUrl()), new File(targetDirectory));
             v.extract();
             setVideoInfoFileTarget(v.getVideo());
             v.download();
@@ -78,9 +78,9 @@ public class DownloaderThread implements Runnable {
         String os = System.getProperty("os.name").toLowerCase();
         try {
             if (os.contains("win")) {
-                Runtime.getRuntime().exec(TARGET_DIRECTORY + "/convert.bat " + path).waitFor();
+                Runtime.getRuntime().exec(targetDirectory + "/convert.bat " + path).waitFor();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-                Runtime.getRuntime().exec("bash " + TARGET_DIRECTORY + "/convert.sh " + path).waitFor();
+                Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.sh " + path).waitFor();
             }
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
@@ -95,10 +95,10 @@ public class DownloaderThread implements Runnable {
     }
 
     private String getVideoFilename() {
-        return TARGET_DIRECTORY + "/assets/mcdisc/sounds/sound.mcdisc." + disc.getId() + ".mp4";
+        return targetDirectory + "/assets/mcdisc/sounds/sound.mcdisc." + disc.getId() + ".mp4";
     }
 
     private String getAudioFilename() {
-        return TARGET_DIRECTORY + "/assets/mcdisc/sounds/sound.mcdisc." + disc.getId() + ".webm";
+        return targetDirectory + "/assets/mcdisc/sounds/sound.mcdisc." + disc.getId() + ".webm";
     }
 }

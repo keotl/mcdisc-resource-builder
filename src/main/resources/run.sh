@@ -1,4 +1,5 @@
 #!/bin/sh
+VERSION=1.0.2
 rm mcdiscPack-*.zip
-java -jar yt-all-1.0.jar .
+java -jar mcdiscResourcePackBuilder-all-${VERSION}.jar .
 zip -r mcdiscPack-$(date +%d-%m-%Y).zip assets pack.mcmeta

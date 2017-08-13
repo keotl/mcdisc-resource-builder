@@ -42,7 +42,7 @@ public class Application {
             Disc[] discs = mapper.readValue(discReleaseJson, Disc[].class);
             prepareSoundsJson(discs);
             prepareLang(discs);
-            DownloaderPool pool = new DownloaderPool(POOL_SIZE);
+            DownloaderPool pool = new DownloaderPool(POOL_SIZE, targetDirectory);
 
             for (Disc disc : discs) {
                 System.out.println("Queueing " + disc.getId() + "/" + discs.length);
