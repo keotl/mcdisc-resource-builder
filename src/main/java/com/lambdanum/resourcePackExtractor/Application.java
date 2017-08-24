@@ -26,18 +26,16 @@ public class Application {
         public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("missing arguments <path>");
-            System.out.println("Usage: yt <path> [releaseUrl]");
+            System.out.println("Usage: resourceBuilder <path> [releaseUrl]");
             return;
         }
         targetDirectory = args[0];
-
 
         if (args.length > 1) {
             releaseUrl = args[2];
         }
 
         String discReleaseJson = getMcDiscRelease();
-        prepareDirectoryTree();
         try {
             Disc[] discs = mapper.readValue(discReleaseJson, Disc[].class);
             prepareSoundsJson(discs);
@@ -63,21 +61,6 @@ public class Application {
             e.printStackTrace();
         }
         return "[]";
-    }
-
-    private static void prepareDirectoryTree() {
-        String os = System.getProperty("os.name").toLowerCase();
-        try {
-            if (os.contains("win")) {
-                Runtime.getRuntime().exec(targetDirectory + "/prepare.bat " + targetDirectory).waitFor();
-            } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-                Runtime.getRuntime().exec("sh " + targetDirectory + "/prepare.sh " + targetDirectory).waitFor();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private static void prepareSoundsJson(Disc[] discs) {
@@ -113,5 +96,4 @@ public class Application {
     private static String formatDiscLangEntry(Disc disc) {
         return "item.record." + disc.getMinecraftId() + ".desc=" + disc.getArtist() + " - " + disc.getName();
     }
-
 }

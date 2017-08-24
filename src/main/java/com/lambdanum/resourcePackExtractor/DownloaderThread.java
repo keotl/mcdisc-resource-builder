@@ -3,7 +3,6 @@ package com.lambdanum.resourcePackExtractor;
 import com.github.axet.vget.VGet;
 import com.github.axet.vget.info.VideoFileInfo;
 import com.github.axet.vget.info.VideoInfo;
-import com.github.axet.wget.info.ex.DownloadError;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +13,7 @@ public class DownloaderThread implements Runnable {
 
     private Disc disc;
     private int retryCount = 0;
-    private String targetDirectory = "/home/kento/Desktop/mcdisc";
+    private String targetDirectory;
     private final static String AUDIO_CONTENT_TYPE = "audio/webm";
 
     private final static int MAX_RETRY = 5;
@@ -22,7 +21,6 @@ public class DownloaderThread implements Runnable {
     public DownloaderThread(Disc disc, String targetDirectory) {
         this.disc = disc;
         this.targetDirectory = targetDirectory;
-        System.out.println(disc.getName());
     }
 
     @Override
@@ -40,9 +38,8 @@ public class DownloaderThread implements Runnable {
             deleteVideoFile();
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (DownloadError e) {
-            e.printStackTrace();
+            System.out.println("Malformed URL for " + disc.getId() + "(" + disc.getUrl() + ")");
+        } catch (RuntimeException e) {
             deleteVideoFile();
             deleteAudioFile();
 
@@ -78,9 +75,11 @@ public class DownloaderThread implements Runnable {
         String os = System.getProperty("os.name").toLowerCase();
         try {
             if (os.contains("win")) {
-                Runtime.getRuntime().exec(targetDirectory + "/convert.bat " + path).waitFor();
+                Runtime.getRuntime().exec("cmd /C " + targetDirectory + "\\convert.bat " + path).waitFor();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
                 Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.sh " + path).waitFor();
+            } else if (os.contains("mac")) {
+                Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.mac.sh " + path).waitFor();
             }
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();

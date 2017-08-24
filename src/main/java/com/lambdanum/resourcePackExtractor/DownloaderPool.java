@@ -8,7 +8,7 @@ public class DownloaderPool implements Runnable {
     private final int poolSize;
     private final String targetDirectory;
 
-    private List<Thread> threads = new ArrayList<>();
+    private volatile List<Thread> threads = new ArrayList<>();
 
     private Thread cleanup = new Thread(this);
     private volatile boolean exit = false;
