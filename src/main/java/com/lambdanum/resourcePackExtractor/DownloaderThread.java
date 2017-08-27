@@ -6,6 +6,7 @@ import com.github.axet.vget.info.VideoInfo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -77,13 +78,29 @@ public class DownloaderThread implements Runnable {
             if (os.contains("win")) {
                 Runtime.getRuntime().exec("cmd /C " + targetDirectory + "\\convert.bat " + path).waitFor();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-                Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.sh " + path).waitFor();
+                Process convertProcess = Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.sh " + path);
+                redirectThreadStreamToNull(convertProcess.getErrorStream());
+                redirectThreadStreamToNull(convertProcess.getInputStream());
+                convertProcess.waitFor();
             } else if (os.contains("mac")) {
                 Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.mac.sh " + path).waitFor();
             }
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void redirectThreadStreamToNull(InputStream inputStream) {
+        final Thread redirectToNull = new Thread(() -> {
+            final InputStream stdout = inputStream;
+            try {
+                while (stdout.read() != -1);
+            } catch (final Exception e) {
+                // Don't care
+            }
+        }, "Output Consumer Thread");
+        redirectToNull.setDaemon(true);
+        redirectToNull.start();
     }
 
     private void deleteVideoFile() {
