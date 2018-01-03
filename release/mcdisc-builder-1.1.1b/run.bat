@@ -1,4 +1,4 @@
-set VERSION=1.1.1b	
+set VERSION=1.1.1b
 del /Q mcdiscPack-*.zip
 del /Q build
 call prepare.bat

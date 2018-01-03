@@ -65,8 +65,7 @@ public class DownloaderThread implements Runnable {
         for (VideoFileInfo d : videoInfo.getInfo()) {
             if (AUDIO_CONTENT_TYPE.equals(d.getContentType())) {
                 d.targetFile = new File(getAudioFilename());
-            }
-            else {
+            } else {
                 d.setTarget(new File(getVideoFilename()));
             }
         }
@@ -76,14 +75,20 @@ public class DownloaderThread implements Runnable {
         String os = System.getProperty("os.name").toLowerCase();
         try {
             if (os.contains("win")) {
-                Runtime.getRuntime().exec("cmd /C " + targetDirectory + "\\convert.bat " + path).waitFor();
+                Process convertProcess = Runtime.getRuntime().exec("cmd /C " + targetDirectory + "\\convert.bat " + path);
+                redirectThreadStreamToNull(convertProcess.getErrorStream());
+                redirectThreadStreamToNull(convertProcess.getInputStream());
+                convertProcess.waitFor();
             } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
                 Process convertProcess = Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.sh " + path);
                 redirectThreadStreamToNull(convertProcess.getErrorStream());
                 redirectThreadStreamToNull(convertProcess.getInputStream());
                 convertProcess.waitFor();
             } else if (os.contains("mac")) {
-                Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.mac.sh " + path).waitFor();
+                Process convertProcess = Runtime.getRuntime().exec("bash " + targetDirectory + "/convert.mac.sh " + path);
+                redirectThreadStreamToNull(convertProcess.getErrorStream());
+                redirectThreadStreamToNull(convertProcess.getInputStream());
+                convertProcess.waitFor();
             }
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
@@ -94,7 +99,9 @@ public class DownloaderThread implements Runnable {
         final Thread redirectToNull = new Thread(() -> {
             final InputStream stdout = inputStream;
             try {
-                while (stdout.read() != -1);
+                while (stdout.read() != -1) {
+                    ;
+                }
             } catch (final Exception e) {
                 // Don't care
             }
@@ -106,6 +113,7 @@ public class DownloaderThread implements Runnable {
     private void deleteVideoFile() {
         new File(getVideoFilename()).delete();
     }
+
     private void deleteAudioFile() {
         new File(getAudioFilename()).delete();
     }
