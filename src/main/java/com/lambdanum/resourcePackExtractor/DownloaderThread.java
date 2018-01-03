@@ -17,7 +17,7 @@ public class DownloaderThread implements Runnable {
     private String targetDirectory;
     private final static String AUDIO_CONTENT_TYPE = "audio/webm";
 
-    private final static int MAX_RETRY = 5;
+    public static int MAX_RETRY = 5;
 
     public DownloaderThread(Disc disc, String targetDirectory) {
         this.disc = disc;
