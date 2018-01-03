@@ -2,6 +2,7 @@ package com.lambdanum.resourcePackExtractor;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lambdanum.resourcePackExtractor.disclist.FileDiscListRepository;
 import com.lambdanum.resourcePackExtractor.disclist.RestDiscListRepository;
 import com.lambdanum.resourcePackExtractor.util.ArgumentParser;
 import com.lambdanum.soundsjson.Entry;
@@ -56,7 +57,17 @@ public class Application {
     }
 
     private static List<Disc> getMcDiscList(String discListLocation) {
-        return new RestDiscListRepository(discListLocation).getDiscs();
+        if (isAnUrl(discListLocation)) {
+            return new RestDiscListRepository(discListLocation).getDiscs();
+        } else {
+            return new FileDiscListRepository(discListLocation).getDiscs();
+        }
+    }
+
+    private static boolean isAnUrl(String discListLocation) {
+        return discListLocation.startsWith("http://")
+            || discListLocation.startsWith("https://")
+            || discListLocation.startsWith("ftp://");
     }
 
     private static void prepareSoundsJson(List<Disc> discs) {

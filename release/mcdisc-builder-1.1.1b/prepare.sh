@@ -13,4 +13,5 @@ ffmpeg/linux/ffmpeg -i "\$FILE" -vn -y "\${FILE%.mp4}.ogg";
 fi
 rm "\$FILE";
 EOF
+chmod -R +x ffmpeg
 chmod +x zip
