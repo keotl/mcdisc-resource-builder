@@ -1,3 +1,7 @@
+Note
+====
+As of February 2018, YouTube's download API seems to have changed, rendering this builder useless. A new version is on the way.
+
 mcdisc-resource-builder
 ======================
 
