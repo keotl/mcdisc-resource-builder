@@ -1,5 +1,5 @@
 import requests
 
 
-def get_json(url: str) -> dict:
+def get_json(url: str) -> list:
     return requests.get(url).json()
