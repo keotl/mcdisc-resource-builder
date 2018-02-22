@@ -1,4 +1,5 @@
 import json
+import os.path
 
 
 def prepare_sounds_json(discs: list, destination: str):
@@ -7,6 +8,11 @@ def prepare_sounds_json(discs: list, destination: str):
         sounds[disc["soundId"]] = {"category": "block", "sounds": [
             {"name": "mcdisc:" + disc["soundId"],
              "stream": True}]}
+
+    directory = os.path.dirname(destination)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     with open(destination, 'w') as jsonFile:
         json.dump(sounds, jsonFile)
 
@@ -15,5 +21,10 @@ def prepare_lang_file(discs: list, destination: str):
     lines = []
     for disc in discs:
         lines.append("item.record.{}.desc={} - {}".format(disc['minecraftId'], disc['artist'], disc['name']))
+
+    directory = os.path.dirname(destination)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     with open(destination, 'w') as langFile:
-        langFile.writelines(lines)
+        langFile.write(os.linesep.join(lines))
