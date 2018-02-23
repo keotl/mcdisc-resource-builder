@@ -1,12 +1,13 @@
 import mcdiscbuilder
 import argparse
+import mcdiscbuilder.gui
 
 TEST_URL = "https://raw.githubusercontent.com/keotl/mcdisc/master/sample-disc-config.json"
 TEMPORARY_DIRECTORY = "build"
 ZIP_DESTINATION_DIRECTORY = "."
 
 parser = argparse.ArgumentParser(description="mcdisc resource pack builder")
-parser.add_argument(help="Disc list location. Can be an URL, or a file path.", dest="disc_list")
+parser.add_argument(help="Disc list location. Can be an URL, or a file path.", dest="disc_list", nargs='?')
 parser.add_argument("--destination", dest="destination",
                     help="zip file destination. Defaults to the current directory.", default=ZIP_DESTINATION_DIRECTORY)
 parser.add_argument("--temporary-dir", dest="temporary_dir",
@@ -14,4 +15,7 @@ parser.add_argument("--temporary-dir", dest="temporary_dir",
                     default=TEMPORARY_DIRECTORY)
 args = parser.parse_args()
 
-mcdiscbuilder.build_resource_pack(args.disc_list, args.temporary_dir, args.destination)
+if args.disc_list is not None:
+    mcdiscbuilder.build_resource_pack(args.disc_list, args.temporary_dir, args.destination)
+else:
+    mcdiscbuilder.gui.show_window()
