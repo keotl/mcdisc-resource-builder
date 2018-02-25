@@ -6,20 +6,30 @@ mcdisc-resource-builder
 ======================
 
 This is a simple automated resource pack builder for the Minecraft Discs mod. See [mcdisc](https://github.com/KEOTL/mcdisc).
-As-is, the software works, but could be much improved. This is a "proof-of-concept" type of software.
 
-I do not own ffmpeg or 7zip, which this software uses and includes for convenience.
+I do not own ffmpeg, which this software uses and includes for convenience.
 
 ## Setup
-1. Download the builder, either by cloning the `release` directory of this repository, or by downloading a zipped version from [here](https://s3.us-east-2.amazonaws.com/mcdisc/mcdisc-builder-1.1.1b.zip).
-2. Edit the run script corresponding to your operating system to build your own disc list.
-    - For Windows, edit the `run.bat` file, for Mac OS X, the `run.mac.sh`, and for Linux, edit the `run.sh` file.
-    - Locate the line which starts with `java` and replace the `--disc-list` parameter value for your own. The value can either be a file path, or an http URL.
-3. Run the edited run script.
+1. Download the builder, either by cloning the `release` directory of this repository, or by downloading a zipped version from [here](https://s3.us-east-2.amazonaws.com/mcdisc/mcdisc-builder-2.0.zip).
+2. Double click on the executable corresponding to your operating system. (Confirmed working on Windows 10, macOS High Sierra, Ubuntu 17.10). If you run into issues, try running from source. (See below.)
+3. Enter your disc list location in the text box. Can be either a URL, or a local file. Note : While building, the window will freeze. This is normal, and will unfreeze when the pack has been created.
 4. Copy the created mcdisc-resource-pack.zip into your minecraft resource packs folder.
 5. Enable the resource pack from the in-game menu.
 
 ### Notes
-- On Windows, the builder sometimes seems to 'freeze' while downloading, and no longer seems to make progress. Press 'Enter' inside the command prompt window to 'wake' the program. This should not corrupt your resource pack.
-- Download errors are normal and often happen while downloading multiple videos at once. The builder automatically retries the download.
-- Customize the run script further by edition the `--pool-size` and `--max-retry` arguments.
+- The builder can be run without a GUI. see the `run_commandline` script for an example.
+
+## Running from source
+1. Clone this repository. Make sure python3, pip3 and ffmpeg are installed on your system.
+2. Install the dependencies. (A virtual environment is recommended, but not mandatory.)
+```bash
+pip3 install -r requirements.txt
+```
+3. Run the builder.
+```bash
+python3 main.py
+```
+Or without a gui. 
+```bash
+python3 main.py <disc_list>
+```
