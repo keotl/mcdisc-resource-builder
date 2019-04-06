@@ -29,3 +29,8 @@ Or without a gui.
 ```bash
 python3 main.py <disc_list>
 ```
+
+4. (Optional) Build a single executable file using PyInstaller.
+```bash
+pyinstaller -F main.py
+```
