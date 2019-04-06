@@ -6,7 +6,7 @@ This is a simple automated resource pack builder for the Minecraft Discs mod. Se
 I do not own ffmpeg, which this software uses and includes for convenience.
 
 ## Setup
-1. Download the builder, either by cloning the `release` directory of this repository, or by downloading a zipped version from [here](https://s3.us-east-2.amazonaws.com/mcdisc/mcdisc-builder-2.0.zip).
+1. Download the builder, either by cloning the `release` directory of this repository, or by downloading a zipped version from [here](https://s3.us-east-2.amazonaws.com/mcdisc/mcdisc-builder-2.0.1.zip).
 2. Double click on the executable corresponding to your operating system. (Confirmed working on Windows 10, macOS High Sierra, Ubuntu 17.10). If you run into issues, try running from source. (See below.)
 3. Enter your disc list location in the text box. Can be either a URL, or a local file. Note : While building, the window will freeze. This is normal, and will unfreeze when the pack has been created.
 4. Copy the created mcdisc-resource-pack.zip into your minecraft resource packs folder.
@@ -28,4 +28,9 @@ python3 main.py
 Or without a gui. 
 ```bash
 python3 main.py <disc_list>
+```
+
+4. (Optional) Build a single executable file using PyInstaller.
+```bash
+pyinstaller -F main.py
 ```
