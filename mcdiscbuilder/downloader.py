@@ -4,7 +4,8 @@ import sys
 import os.path
 
 
-def download(url: str, destination: str):
+def download(url: str, destination: str) -> int:
+    """returns the duration"""
     try:
         if _local_ffmpeg_exists():
             ydl = youtube_dl.YoutubeDL(
@@ -14,7 +15,6 @@ def download(url: str, destination: str):
                     'preferredcodec': "vorbis"
                 }],
                  'ffmpeg_location': _get_local_ffmpeg_location()})
-            ydl.download([url])
         else:
             ydl = youtube_dl.YoutubeDL(
                 {'outtmpl': destination, 'quiet': True, 'merge_output_format': "mkv", 'postprocessors': [{
@@ -22,7 +22,8 @@ def download(url: str, destination: str):
                     'preferredquality': '5',
                     'preferredcodec': "vorbis"
                 }]})
-            ydl.download([url])
+        ydl.download([url])
+        return ydl.extract_info(url, download=False)["duration"]
     except YoutubeDLError:
         print("Error downloading {}".format(url))
 
