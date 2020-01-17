@@ -1,0 +1,7 @@
+image:
+  - Ubuntu
+  - Visual Studio 2019
+  - macOS
+install:
+  - pip install -r requirements.txt
+  - pyinstaller -F main.py
