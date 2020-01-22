@@ -1,6 +1,8 @@
 import json
 import os.path
 
+from jivago.lang.stream import Stream
+
 
 def prepare_sounds_json(discs: list, destination: str):
     sounds = {}
@@ -16,9 +18,8 @@ def prepare_sounds_json(discs: list, destination: str):
 
 
 def prepare_lang_file(discs: list, destination: str):
-    lines = []
-    for disc in discs:
-        lines.append("item.record.{}.desc={} - {}".format(disc['minecraftId'], disc['artist'], disc['name']))
+    lines = Stream(discs) \
+        .map(lambda disc: f"item.record.{disc['minecraftId']}.desc={disc['artist']} - {disc['name']}")
 
     create_directory_if_not_exists(destination)
 
