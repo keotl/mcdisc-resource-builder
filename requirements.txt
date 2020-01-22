@@ -6,7 +6,7 @@ idna==2.6
 macholib==1.9
 pefile==2017.11.5
 PyInstaller==3.4
-requests==2.18.4
+requests==2.20.0
 urllib3==1.22
 youtube-dl==2020.1.15
 jivago==0.5.4
