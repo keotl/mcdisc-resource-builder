@@ -8,7 +8,9 @@ build: Script
 
 build_script:
   - cmd: C:\Python37\Scripts\pyinstaller.exe -F main.py
+  - cmd: copy release\windows\ffmpeg\*.exe dist\
+  - ps: Compress-Archive -Path dist -DestinationPath mcdisc-resource-builder.zip
 
 artifacts:
-  - path: dist\main.exe
-    name: mcdiscc-resource-builder
+  - path: mcdisc-resource-builder.zip
+    name: mcdisc-resource-builder
