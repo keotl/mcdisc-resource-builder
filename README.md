@@ -4,7 +4,7 @@ mcdisc-resource-builder
 This is a simple automated resource pack builder for the Minecraft Discs mod. See [mcdisc](https://github.com/KEOTL/mcdisc).
 
 ## Download the builder executable
-Windows: [https://ci.appveyor.com/project/keotl/mcdisc-resource-builder/build/artifacts](https://ci.appveyor.com/project/keotl/mcdisc-resource-builder/build/artifacts) (Click of mcdisc-resource-builder.zip)
+Windows: [https://ci.appveyor.com/project/keotl/mcdisc-resource-builder/build/artifacts](https://ci.appveyor.com/project/keotl/mcdisc-resource-builder/build/artifacts) (Click on mcdisc-resource-builder.zip)
 
 MacOS: (Coming soon)
 
