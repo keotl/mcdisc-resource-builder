@@ -8,5 +8,5 @@ pefile==2017.11.5
 PyInstaller==3.4
 requests==2.18.4
 urllib3==1.22
-youtube-dl==2020.9.20
-jivago==0.5.4
+youtube-dl==2020.12.14
+jivago==0.5.6
