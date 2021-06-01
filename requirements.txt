@@ -7,6 +7,6 @@ macholib==1.9
 pefile==2017.11.5
 PyInstaller==3.6
 requests==2.18.4
-urllib3==1.22
+urllib3==1.26.5
 youtube-dl==2021.1.24.1
 jivago==0.5.6
